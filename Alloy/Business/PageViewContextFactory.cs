@@ -10,7 +10,6 @@ using EPiServer.Web.Routing;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
 namespace AlloyTemplates.Business
@@ -21,14 +20,12 @@ namespace AlloyTemplates.Business
         private readonly IContentLoader _contentLoader;
         private readonly UrlResolver _urlResolver;
         private readonly IDatabaseMode _databaseMode;
-        private readonly CookieAuthenticationOptions _cookieAuthenticationOptions;
 
         public PageViewContextFactory(IContentLoader contentLoader, UrlResolver urlResolver, IDatabaseMode databaseMode, IOptionsMonitor<CookieAuthenticationOptions> optionMonitor)
         {
             _contentLoader = contentLoader;
             _urlResolver = urlResolver;
             _databaseMode = databaseMode;
-            _cookieAuthenticationOptions = optionMonitor.Get(IdentityConstants.ApplicationScheme);
         }
 
         public virtual LayoutModel CreateLayoutModel(ContentReference currentContentLink, HttpContext httpContext)
@@ -61,10 +58,7 @@ namespace AlloyTemplates.Business
 
         private string GetLoginUrl(ContentReference returnToContentLink)
         {
-            return string.Format(
-                "{0}?ReturnUrl={1}",
-                _cookieAuthenticationOptions?.LoginPath.Value ?? Global.LoginPath,
-                _urlResolver.GetUrl(returnToContentLink));
+            return $"{Global.LoginPath}?ReturnUrl={_urlResolver.GetUrl(returnToContentLink)}";
         }
 
         public virtual IContent GetSection(ContentReference contentLink)
