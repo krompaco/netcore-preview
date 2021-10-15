@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AlloyTemplates
 {
-
     public class Global
     {
         public const string LoginPath = "/util/login";

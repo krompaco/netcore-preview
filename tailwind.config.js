@@ -5,7 +5,7 @@ module.exports = {
 	purge: {
 		content: [
 			'./Alloy/Views/**/*.cshtml',
-			'./stimulus_controllers/**/*.js'
+			'./stimulus_controllers/**/*.js',
 		]
 	},
 	theme: {
@@ -16,6 +16,8 @@ module.exports = {
 		},
 	},
 	plugins: [
-		require('@tailwindcss/typography')
+		require('@tailwindcss/forms'),
+		require('@tailwindcss/typography'),
+		require('@tailwindcss/aspect-ratio'),
 	],
 }
