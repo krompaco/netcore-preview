@@ -82,3 +82,7 @@ Alloy/App_Data/
 /Alloy/wwwroot/css/css.min.css
 /Alloy/wwwroot/js/script.min.js
 /.config/dotnet-tools.json
+Alloy/wwwroot/dist/main.js
+Alloy/wwwroot/dist/main.js.map
+Alloy/wwwroot/dist/styles.css
+Alloy/wwwroot/dist/styles.css.map
