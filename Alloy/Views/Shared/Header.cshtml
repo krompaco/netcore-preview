@@ -2,52 +2,42 @@
 @using EPiServer.Core
 @using EPiServer.Web
 @model IPageViewModel<SitePageData>
-<div class="row">
-    <div id="header">
-        <div class="span2">
-            <a href="@Model.Layout.LogotypeLinkUrl" title="@Model.Layout.Logotype.Title">
-                @Html.PropertyFor(x => x.Layout.Logotype)
-            </a>
-        </div>
-        <div class="span10">
-            
-            <div class="alloyMenu">
-                <div class="navbar">
-                    <div class="navbar-inner">
-                        <div class="container">
-                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </a>         
-                            <div class="nav-collapse">
-                                <ul class="nav">
-                                    <li class="@(Model.CurrentPage.ContentLink.CompareToIgnoreWorkID(SiteDefinition.Current.StartPage) ? "active" : null)">@Html.ContentLink(SiteDefinition.Current.StartPage)</li>
-                                    @Html.MenuList(SiteDefinition.Current.StartPage, 
-                                                   @<li class="@(item.Selected ? "active" : null)">
-                                                        @Html.PageLink(item.Page, null, new { @class = string.Join(" ", item.Page.GetThemeCssClassNames())})
-                                                    </li>) 
-                                </ul>
-                                <div class="navbar-search pull-right">
-                                    @*We use GET to submit the form to enable bookmarking etc of search results.  However, as GET will remove other 
-                                      query string values not in the form we can't use that in edit mode.*@
-                                    
-                                    @{
-                                        using (Html.BeginForm(null, null, Html.ViewContext.IsInEditMode() ? FormMethod.Post : FormMethod.Get, new { @action = Model.Layout.SearchActionUrl }))
-                                        {
-                                            <input type="text" class="search-query" name="q" id="SearchKeywords" placeholder="@Html.Translate("/mainnavigation/search")"/>
-                                            <input type="submit" class="searchButton" id="SearchButton" value=""/>
-                                        }
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div role="banner">
+    <a class="inline-block focus:outline-black mt-3" href="@Model.Layout.LogotypeLinkUrl">
+        @Html.PropertyFor(x => x.Layout.Logotype)
+    </a>
+    <div data-controller="menu" class="mt-3">
+        <button data-menu-target="button" data-action="click->menu#toggle touch->menu#toggle" type="button" class="p-[3px] focus:outline-black">
+            <span class="sr-only js-text-content">Öppna meny</span>
+            <div class="text-black js-content-collapsed">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
+            </div>
+            <div class="text-black hidden js-content-expanded">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </div>
+        </button>
+        <div data-menu-target="toggleable" class="flex sidebar-height bg-alloy-900 hidden mt-3" id="header-menu">
+            <div class="relative flex-1 flex flex-col">
+                <div class="flex-1">
+                    <ul class="w-full bg-alloy-800">
+                        @foreach (var item in Model.Layout.MenuItems)
+                        {
+                            @await Html.PartialAsync("~/Views/Shared/Components/Menu/NavMenuItem.cshtml", item)
+                        }
+                    </ul>
                 </div>
             </div>
-
         </div>
     </div>
-</div>
 
-<hr />
+    @*We use GET to submit the form to enable bookmarking etc of search results.  However, as GET will remove other
+            query string values not in the form we can't use that in edit mode.*@
+
+@*@{
+                using (Html.BeginForm(null, null, Html.ViewContext.IsInEditMode() ? FormMethod.Post : FormMethod.Get, new { @action = Model.Layout.SearchActionUrl }))
+                {
+                    <input type="text" class="search-query" name="q" id="SearchKeywords" placeholder="@Html.Translate("/mainnavigation/search")" />
+                    <input type="submit" class="searchButton" id="SearchButton" value="" />
+                }
+            }*@
+</div>

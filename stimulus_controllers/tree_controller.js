@@ -9,7 +9,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.buttonTargets.forEach(target => {      
+    this.buttonTargets.forEach(target => {
       var listId = target.getAttribute('data-aria-controls');
       target.setAttribute('aria-controls', listId);
       target.setAttribute('aria-expanded', this.openValue);

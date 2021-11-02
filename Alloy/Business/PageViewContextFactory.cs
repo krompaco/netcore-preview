@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using AlloyMvcTemplates.Models.ViewModels;
 using AlloyTemplates.Models.Pages;
 using AlloyTemplates.Models.ViewModels;
 using EPiServer;
@@ -20,12 +22,14 @@ namespace AlloyTemplates.Business
         private readonly IContentLoader _contentLoader;
         private readonly UrlResolver _urlResolver;
         private readonly IDatabaseMode _databaseMode;
+        private readonly IContextModeResolver _contextModeResolver;
 
-        public PageViewContextFactory(IContentLoader contentLoader, UrlResolver urlResolver, IDatabaseMode databaseMode, IOptionsMonitor<CookieAuthenticationOptions> optionMonitor)
+        public PageViewContextFactory(IContentLoader contentLoader, UrlResolver urlResolver, IDatabaseMode databaseMode, IContextModeResolver contextModeResolver,  IOptionsMonitor<CookieAuthenticationOptions> optionMonitor)
         {
             _contentLoader = contentLoader;
             _urlResolver = urlResolver;
             _databaseMode = databaseMode;
+            _contextModeResolver = contextModeResolver;
         }
 
         public virtual LayoutModel CreateLayoutModel(ContentReference currentContentLink, HttpContext httpContext)
@@ -41,6 +45,9 @@ namespace AlloyTemplates.Business
 
             var startPage = _contentLoader.Get<StartPage>(startPageContentLink);
 
+            // Process menu
+            var menuItems = ProcessMenu(startPageContentLink, 1);
+
             return new LayoutModel
             {
                 Logotype = startPage.SiteLogotype,
@@ -51,9 +58,30 @@ namespace AlloyTemplates.Business
                 CustomerZonePages = startPage.CustomerZonePageLinks,
                 LoggedIn = httpContext.User.Identity.IsAuthenticated,
                 LoginUrl = new HtmlString(GetLoginUrl(currentContentLink)),
-                SearchActionUrl = new HtmlString(EPiServer.Web.Routing.UrlResolver.Current.GetUrl(startPage.SearchPageLink)),
-                IsInReadonlyMode = _databaseMode.DatabaseMode == DatabaseMode.ReadOnly
+                SearchActionUrl = new HtmlString(_urlResolver.GetUrl(startPage.SearchPageLink)),
+                IsInReadonlyMode = _databaseMode.DatabaseMode == DatabaseMode.ReadOnly,
+                ContextMode = _contextModeResolver.CurrentMode,
+                MenuItems = menuItems,
             };
+        }
+
+        private List<MenuItemViewModel> ProcessMenu(ContentReference parentLink, int level)
+        {
+            var menuItems = new List<MenuItemViewModel>();
+            var children = _contentLoader.GetChildren<PageData>(parentLink).Where(x => x.VisibleInMenu);
+
+            foreach (var pageData in children)
+            {
+                menuItems.Add(new MenuItemViewModel
+                {
+                    ChildItems = ProcessMenu(pageData.ContentLink, level + 1),
+                    Level = level,
+                    LinkUrl = _urlResolver.GetUrl(pageData.ContentLink),
+                    Text = pageData.PageName,
+                });
+            }
+
+            return menuItems;
         }
 
         private string GetLoginUrl(ContentReference returnToContentLink)

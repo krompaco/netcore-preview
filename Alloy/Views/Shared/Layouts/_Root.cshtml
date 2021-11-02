@@ -22,26 +22,30 @@
     @Html.AlternateLinks()
     <link rel="stylesheet" href="~/dist/styles.css" asp-append-version="true" />
     <script src="/dist/main.js" async asp-append-version="true"></script>
+    @if (Model.Layout.ContextMode is ContextMode.Edit or ContextMode.Preview)
+    {
+        <meta name="turbo-visit-control" content="reload" />
+    }
 </head>
+<body class="m-6">
+    @if (Model.Layout.IsInReadonlyMode)
+    {
+        await Html.RenderPartialAsync("Readonly", Model);
+    }
 
-    <body>
-        @if (Model.Layout.IsInReadonlyMode)
+    @*@await Html.RenderEPiServerQuickNavigatorAsync()*@
+    @Html.FullRefreshPropertiesMetaData()
+
+    <div class="container">
+        @if(!Model.Layout.HideHeader)
         {
-            await Html.RenderPartialAsync("Readonly", Model);
+            await Html.RenderPartialAsync("Header", Model);
         }
-
-        @await Html.RenderEPiServerQuickNavigatorAsync()
-        @Html.FullRefreshPropertiesMetaData()
-        <div class="container">
-            @if(!Model.Layout.HideHeader)
-            {
-                await Html.RenderPartialAsync("Header", Model);
-            }
-            @RenderBody()
-            @if(!Model.Layout.HideFooter)
-            {
-                await Html.RenderPartialAsync("Footer", Model);
-            }
-        </div>
-    </body>
+        @RenderBody()
+        @if(!Model.Layout.HideFooter)
+        {
+            await Html.RenderPartialAsync("Footer", Model);
+        }
+    </div>
+</body>
 </html>

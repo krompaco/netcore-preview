@@ -1,5 +1,8 @@
-﻿using EPiServer.SpecializedProperties;
+﻿using System.Collections.Generic;
+using AlloyMvcTemplates.Models.ViewModels;
+using EPiServer.SpecializedProperties;
 using AlloyTemplates.Models.Blocks;
+using EPiServer.Web;
 using Microsoft.AspNetCore.Html;
 
 namespace AlloyTemplates.Models.ViewModels
@@ -20,5 +23,9 @@ namespace AlloyTemplates.Models.ViewModels
         public HtmlString SearchActionUrl { get; set; }
 
         public bool IsInReadonlyMode {get;set;}
+
+        public ContextMode ContextMode {get;set;}
+
+        public List<MenuItemViewModel> MenuItems {get; set;}
     }
 }

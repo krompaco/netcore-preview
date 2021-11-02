@@ -19,4 +19,8 @@
 
 @tailwind components;
 
+#epi-quickNavigator-logo {
+	display: inline-block;
+}
+
 @tailwind utilities;
