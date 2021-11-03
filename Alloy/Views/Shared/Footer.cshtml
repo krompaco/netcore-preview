@@ -2,22 +2,25 @@
 <div class="border-t mt-24 bg-alloy-50 block">
     <h2 class="sr-only">Shortcuts</h2>
 
-    <div class="flex flex-col sm:flex-row sm:justify-center pt-10">
-        <div class="p-6 sm:px-10 prose">
+    <div class="flex flex-col flex-wrap sm:flex-row sm:justify-center pt-10">
+        <div class="p-6 sm:px-8 prose prose-sm">
             <h3>@Html.Translate("/footer/products")</h3>
             @Html.PropertyFor(x => x.Layout.ProductPages)
         </div>
-        <div class="p-6 sm:px-10 prose">
+        <div class="p-6 sm:px-8 prose prose-sm">
             <h3>@Html.Translate("/footer/company")</h3>
             @Html.PropertyFor(x => x.Layout.CompanyInformationPages)
         </div>
-        <div class="p-6 sm:px-10 prose">
+        <div class="p-6 sm:px-8 prose prose-sm">
             <h3>@Html.Translate("/footer/news")</h3>
             @Html.PropertyFor(x => x.Layout.NewsPages)
         </div>
-        <div class="p-6 sm:px-10 prose">
+        <div class="p-6 sm:px-8 prose prose-sm">
             <h3>@Html.Translate("/footer/customerzone")</h3>
             @Html.PropertyFor(x => x.Layout.CustomerZonePages)
+        </div>
+        <div class="p-6 sm:px-8 prose prose-sm">
+            <h3>Account</h3>
             <ul>
                 <li>
                     @if (Model.Layout.LoggedIn)
@@ -28,7 +31,7 @@
                     {
                         if (!Model.Layout.IsInReadonlyMode)
                         {
-                            <a href="@Model.Layout.LoginUrl" title="@Html.Translate("/footer/login")">@Html.Translate("/footer/login")</a>
+                            <a href="@Model.Layout.LoginUrl">@Html.Translate("/footer/login")</a>
                         }
                     }
                 </li>
