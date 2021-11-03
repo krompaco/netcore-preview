@@ -25,12 +25,8 @@
 }
 
 
-<div class="row hideMyTracks">
-    <div class="span12">
-        <ul class="alloyBreadcrumb">
-            @Html.ContentLink(SiteDefinition.Current.StartPage)
-            <span class="divider">/</span>
-            @Html.MenuList(SiteDefinition.Current.StartPage, ItemTemplate, requireVisibleInMenu: false, requirePageTemplate: false)
-        </ul>
-    </div>
+<div class="my-6 text-sm text-gray-800">
+    @Html.ContentLink(SiteDefinition.Current.StartPage)
+    <span class="text-black">/</span>
+    @Html.MenuList(SiteDefinition.Current.StartPage, ItemTemplate, requireVisibleInMenu: false, requirePageTemplate: false)
 </div>  

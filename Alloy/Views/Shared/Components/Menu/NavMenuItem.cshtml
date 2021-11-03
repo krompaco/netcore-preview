@@ -3,103 +3,51 @@
 @{
     var listId = "l" + Guid.NewGuid().ToString("n");
 
-    string GetListClassByLevel()
-    {
-        switch (Model.Level + 1)
-        {
-            case 2:
-                return "bg-gray-100";
-            case 3:
-                return "bg-gray-100";
-            case 4:
-                return "bg-gray-100";
-        }
-
-        return "bg-alloy-600";
-    }
-
-    string GetButtonClassByLevel()
-    {
-        switch (Model.Level)
-        {
-            case 2:
-                return "bg-gray-100 text-black";
-            case 3:
-                return "bg-gray-100 text-black";
-            case 4:
-                return "bg-gray-100 text-black";
-        }
-
-        return "bg-alloy-600 text-white";
-    }
-
     string GetClassByLevel()
     {
         switch (Model.Level)
         {
+            case 1:
+                return "p-2 text-lg font-bold";
             case 2:
-                return "pl-6 py-2 text-lg font-bold text-alloy-600";
+                return "pl-6 pr-2 py-2 text-lg";
             case 3:
-                return "pl-9 py-3 text-alloy-600";
+                return "pl-9 pr-2 py-3 text-base";
             case 4:
-                return "pl-12 py-3 text-alloy-600";
+                return "pl-12 pr-2 py-3 text-sm";
         }
 
-        return "pl-3 py-2 text-lg font-bold text-white";
-    }
-
-    string GetClassByChildItems()
-    {
-        return Model.ChildItems is { Count: > 0 } ? "truncate" : string.Empty;
-    }
-
-    string GetWidthClassByChildItems()
-    {
-        string colors;
-
-        switch (Model.Level)
-        {
-            case 2:
-                colors = "text-alloy-600";
-                break;
-            case 3:
-                colors = "text-alloy-600";
-                break;
-            case 4:
-                colors = "text-alloy-600";
-                break;
-            default:
-                colors = "text-white";
-                break;
-        }
-
-        return $"w-[250px] {colors}";
+        return "pl-12 pr-2 py-3 text-sm";
     }
 }
 
 <li>
-    <div class="flex items-center" data-controller="tree">
-        <a class="@GetWidthClassByChildItems() flex items-center min-h-[50px] hover:outline-none hover:underline focus:outline-none focus:underline border-r border-alloy-600" href="@Model.LinkUrl"><span class="block leading-snug pr-3 @GetClassByLevel() @GetClassByChildItems()">@Model.Text</span></a>
+    <div class="flex justify-between w-[300px] sm:w-[500px]" data-controller="tree">
+        <div class="@GetClassByLevel() flex items-center">
+            <a class="hover:outline-black focus:outline-black p-[3px] leading-snug" href="@Model.LinkUrl">@Model.Text</a>
+        </div>
         @if (Model.ChildItems != null && Model.ChildItems.Count > 0)
         {
-            <button data-tree-target="button" data-action="click->tree#toggle touch->tree#toggle" type="button"
-                    data-aria-controls="@listId"
-                    class="flex items-center justify-center h-[50px] w-[50px] @GetButtonClassByLevel() hover:outline-none focus:outline-none focus:bg-supernova">
-                <div class="js-content-collapsed">
-                    <span class="sr-only">Öppna meny @Model.Text</span>
-                    <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                </div>
-                <div class="js-content-expanded hidden">
-                    <span class="sr-only">Stäng meny @Model.Text</span>
-                    <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
-                </div>
-            </button>
+            <div class="pr-2">
+                <button data-tree-target="button" data-action="click->tree#toggle touch->tree#toggle" type="button"
+                        data-aria-controls="@listId"
+                        class="flex items-center justify-center bg-alloy-100 text-black hover:outline-black focus:outline-black p-[3px] my-[6px]">
+                    <div class="js-content-collapsed p-2">
+                        <span class="sr-only">Open @Model.Text</span>
+                        <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    </div>
+                    <div class="js-content-expanded hidden p-2">
+                        <span class="sr-only">Close @Model.Text</span>
+                        <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                    </div>
+                </button>
+            </div>
         }
     </div>
 
     @if (Model.ChildItems != null && Model.ChildItems.Count > 0)
     {
-        <ul id="@listId" class="hidden @GetListClassByLevel()">
+        <ul id="@listId" class="hidden">
             @foreach (var child in Model.ChildItems)
             {
                 @await Html.PartialAsync("~/Views/Shared/Components/Menu/NavMenuItem.cshtml", child)

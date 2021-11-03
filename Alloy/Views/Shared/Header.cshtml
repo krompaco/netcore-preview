@@ -2,24 +2,31 @@
 @using EPiServer.Core
 @using EPiServer.Web
 @model IPageViewModel<SitePageData>
-<div role="banner">
-    <a class="inline-block focus:outline-black mt-3" href="@Model.Layout.LogotypeLinkUrl">
-        @Html.PropertyFor(x => x.Layout.Logotype)
-    </a>
-    <div data-controller="menu" class="mt-3">
-        <button data-menu-target="button" data-action="click->menu#toggle touch->menu#toggle" type="button" class="p-[3px] focus:outline-black">
-            <span class="sr-only js-text-content">Öppna meny</span>
-            <div class="text-black js-content-collapsed">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
-            </div>
-            <div class="text-black hidden js-content-expanded">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </div>
-        </button>
-        <div data-menu-target="toggleable" class="flex sidebar-height bg-alloy-900 hidden mt-3" id="header-menu">
+<div role="banner" class="mt-3" data-controller="menu">
+    <div class="flex justify-between items-center px-3">
+        <h1 class="flex-none">
+            <a class="inline-block focus:outline-black" href="@Model.Layout.LogotypeLinkUrl">
+                @Html.PropertyFor(x => x.Layout.Logotype)
+            </a>
+        </h1>
+        <div>
+            <button data-menu-target="button" data-action="click->menu#toggle touch->menu#toggle" type="button" class="p-[3px] focus:outline-black justify-self-end">
+                <span class="sr-only js-text-content">Open menu</span>
+                <div class="text-black js-content-collapsed">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
+                </div>
+                <div class="text-black hidden js-content-expanded">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </div>
+            </button>
+        </div>
+    </div>
+    <div data-menu-target="toggleable" class="flex justify-center w-full hidden border-t border-b bg-alloy-50 mt-3" id="header-menu">
+        <div class="flex-none flex py-3">
             <div class="relative flex-1 flex flex-col">
-                <div class="flex-1">
-                    <ul class="w-full bg-alloy-800">
+                <div class="flex-1" role="navigation">
+                    <h2 class="sr-only">Main navigation</h2>
+                    <ul class="w-full">
                         @foreach (var item in Model.Layout.MenuItems)
                         {
                             @await Html.PartialAsync("~/Views/Shared/Components/Menu/NavMenuItem.cshtml", item)

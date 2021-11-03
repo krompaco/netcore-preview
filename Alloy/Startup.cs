@@ -111,7 +111,9 @@ namespace EPiServer.Templates.Alloy.Mvc
                     };
                 });
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddRazorRuntimeCompilation();
+
             services.AddAlloy();
             services.AddCms();
 

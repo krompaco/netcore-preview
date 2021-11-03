@@ -2,7 +2,7 @@
 
 @model TeaserBlock
 
-<div class="border">
+<div class="">
     @*Link the teaser block only if a link has been set and not displayed in preview*@
     @using (Html.BeginConditionalLink
                             (!ContentReference.IsNullOrEmpty(Model.Link) && !(Html.ViewContext.IsPreviewMode()),

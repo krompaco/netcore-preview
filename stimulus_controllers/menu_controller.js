@@ -6,7 +6,7 @@ export default class extends Controller {
 
   initialize() {
     this.toggleClass = 'hidden';
-    this.openText = 'Öppna meny';
+    this.openText = 'Open menu';
   }
 
   connect() {
@@ -35,7 +35,7 @@ export default class extends Controller {
 
     this.buttonTargets.forEach(target => {
       target.setAttribute('aria-expanded', this.openValue);
-      target.setAttribute('aria-label', this.openValue ? 'Stäng meny' : this.openText);
+      target.setAttribute('aria-label', this.openValue ? 'Close menu' : this.openText);
 
       // Hamburger graphics
       target.querySelector('.js-content-expanded').classList.toggle(this.toggleClass);

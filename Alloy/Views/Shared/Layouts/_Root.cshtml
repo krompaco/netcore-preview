@@ -27,25 +27,28 @@
         <meta name="turbo-visit-control" content="reload" />
     }
 </head>
-<body class="m-6">
+<body class="m-0 bg-white">
     @if (Model.Layout.IsInReadonlyMode)
     {
         await Html.RenderPartialAsync("Readonly", Model);
     }
 
     @*@await Html.RenderEPiServerQuickNavigatorAsync()*@
+
     @Html.FullRefreshPropertiesMetaData()
 
-    <div class="container">
-        @if(!Model.Layout.HideHeader)
-        {
-            await Html.RenderPartialAsync("Header", Model);
-        }
+    @if(!Model.Layout.HideHeader)
+    {
+        await Html.RenderPartialAsync("Header", Model);
+    }
+
+    <div class="max-w-[1000px] mx-auto">
         @RenderBody()
-        @if(!Model.Layout.HideFooter)
-        {
-            await Html.RenderPartialAsync("Footer", Model);
-        }
     </div>
+
+    @if(!Model.Layout.HideFooter)
+    {
+        await Html.RenderPartialAsync("Footer", Model);
+    }
 </body>
 </html>

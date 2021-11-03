@@ -23,4 +23,8 @@
 	display: inline-block;
 }
 
+.turbo-progress-bar {
+	@apply bg-alloy-600 h-[5px];
+}
+
 @tailwind utilities;

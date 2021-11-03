@@ -72,12 +72,19 @@ namespace AlloyTemplates.Business
 
             foreach (var pageData in children)
             {
+                var url = _urlResolver.GetUrl(pageData.ContentLink);
+
+                if (url == null)
+                {
+                    continue;
+                }
+
                 menuItems.Add(new MenuItemViewModel
                 {
-                    ChildItems = ProcessMenu(pageData.ContentLink, level + 1),
                     Level = level,
-                    LinkUrl = _urlResolver.GetUrl(pageData.ContentLink),
+                    LinkUrl = url,
                     Text = pageData.PageName,
+                    ChildItems = ProcessMenu(pageData.ContentLink, level + 1),
                 });
             }
 
