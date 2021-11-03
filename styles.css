@@ -27,4 +27,8 @@
 	@apply bg-alloy-600 h-[5px];
 }
 
+.prose a:hover, .prose a:focus {
+    @apply outline-black;
+}
+
 @tailwind utilities;

@@ -5,6 +5,7 @@ module.exports = {
 	purge: {
 		content: [
 			'./Alloy/Views/**/*.cshtml',
+			'./Alloy/**/AlloyContentAreaRenderer.cs',
 			'./stimulus_controllers/**/*.js',
 		]
 	},

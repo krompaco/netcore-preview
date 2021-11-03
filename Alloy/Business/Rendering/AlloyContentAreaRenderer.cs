@@ -18,7 +18,7 @@ namespace AlloyTemplates.Business.Rendering
             var baseItemClass = base.GetContentAreaItemCssClass(htmlHelper, contentAreaItem);
 
             var tag = GetContentAreaItemTemplateTag(htmlHelper, contentAreaItem);
-            return $"block {baseItemClass} {GetTypeSpecificCssClasses(contentAreaItem, ContentRepository)} {GetCssClassForTag(tag)} {tag}";
+            return $"alloy-renderer {baseItemClass} {GetTypeSpecificCssClasses(contentAreaItem, ContentRepository)} {GetCssClassForTag(tag)} {tag}";
         }
 
         /// <summary>
@@ -33,12 +33,14 @@ namespace AlloyTemplates.Business.Rendering
             }
             switch (tagName.ToLower())
             {
-                case "span12":
-                    return "full";
-                case "span8":
-                    return "wide";
-                case "span6":
-                    return "half";
+                case Global.ContentAreaTags.FullWidth:
+                    return "w-full flex-shrink-0";
+                case Global.ContentAreaTags.TwoThirdsWidth:
+                    return "w-full sm:w-2/3";
+                case Global.ContentAreaTags.HalfWidth:
+                    return "w-full sm:w-1/2";
+                case Global.ContentAreaTags.OneThirdWidth:
+                    return "w-full sm:w-1/3";
                 default:
                     return string.Empty;
             }

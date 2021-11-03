@@ -1,13 +1,14 @@
 ﻿@model JumbotronBlock
 
-<div class="row">
-    <div class="span4 hidden-tablet hidden-phone">
+<div class="pb-12">
+    <div class="relative">
         @Html.PropertyFor(m=>m.Image)
-    </div>
-
-    <div class="span8">
-        <h1 class="jumbotron" @Html.EditAttributes(m => m.Heading)>@Model.Heading</h1>
-        <p class="subHeader" @Html.EditAttributes(m=>m.SubHeading)>@Model.SubHeading</p>
-        <a class="btn-blue right" href="@Model.ButtonLink" id="jumboLink" @Html.EditAttributes(m => m.ButtonText)>@Model.ButtonText</a>
+        <div class="py-4 px-5 text-white bg-alloy-900 sm:absolute sm:bottom-10 sm:right-10 sm:w-[460px] sm:mb-2 sm:mr-3 sm:rounded-md">
+            <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl" @Html.EditAttributes(m => m.Heading)>@Model.Heading</h1>
+            <p class="my-3" @Html.EditAttributes(m=>m.SubHeading)>@Model.SubHeading</p>
+            <div class="mt-3 text-sm text-right">
+                <a href="@Model.ButtonLink" class="font-semibold text-white hover:outline-white focus:outline-white" @Html.EditAttributes(m => m.ButtonText)>@Model.ButtonText<span aria-hidden="true"> &rarr;</span></a>
+            </div>
+        </div>
     </div>
 </div>

@@ -2,16 +2,23 @@
 
 @model TeaserBlock
 
-<div class="">
+<div class="py-2 px-4">
     @*Link the teaser block only if a link has been set and not displayed in preview*@
     @using (Html.BeginConditionalLink
                             (!ContentReference.IsNullOrEmpty(Model.Link) && !(Html.ViewContext.IsPreviewMode()),
                             Url.PageLinkUrl(Model.Link),
-                            Model.Heading))
+                            Model.Heading, cssClass: "block hover:outline-black focus:outline-black"))
     {
-    <h2 @Html.EditAttributes(x => x.Heading)>@Model.Heading</h2>
-    <p @Html.EditAttributes(x => x.Text)>@Model.Text</p>
-    <div @Html.EditAttributes(x => x.Image)><img src="@Url.ContentUrl(Model.Image)" /></div>
+        <div class="p-[3px]">
+            <div class="mb-1" @Html.EditAttributes(x => x.Image)><img src="@Url.ContentUrl(Model.Image)" alt="" /></div>
+            <h2 class="text-xl font-bold tracking-tight sm:text-2xl" @Html.EditAttributes(x => x.Heading)>
+                @Model.Heading
+                @if (!ContentReference.IsNullOrEmpty(Model.Link))
+                {
+                    <span aria-hidden="true"> &rarr;</span>
+                }
+            </h2>
+            <p class="mt-2 text-sm text-gray-800" @Html.EditAttributes(x => x.Text)>@Model.Text</p>
+        </div>
     }
-
 </div>
